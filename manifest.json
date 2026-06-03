@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "PriceHawk",
+  "version": "1.0.0",
+  "description": "电商智能比价助手 — 自动识别商品、追踪价格历史、降价即时提醒",
+  "homepage_url": "https://479464887-rgb.github.io/pricehawk/",
+  "author": {"email": "tulv202900@163.com"},
+  "permissions": ["storage", "alarms", "notifications", "activeTab"],
+  "host_permissions": [
+    "https://*.amazon.com/*",
+    "https://*.amazon.cn/*",
+    "https://*.jd.com/*",
+    "https://*.taobao.com/*",
+    "https://*.tmall.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [{
+    "matches": [
+      "https://*.amazon.com/*",
+      "https://*.amazon.cn/*",
+      "https://*.jd.com/*",
+      "https://*.taobao.com/*",
+      "https://*.tmall.com/*"
+    ],
+    "js": ["content.js"],
+    "css": ["content.css"],
+    "run_at": "document_idle"
+  }],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "PriceHawk"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

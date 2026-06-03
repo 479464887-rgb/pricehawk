@@ -1,0 +1,131 @@
+// PriceHawk - Content Script
+// 自动检测商品页面并提取价格信息
+
+const PLATFORMS = {
+  'amazon.com': { name: 'Amazon', currency: '$' },
+  'amazon.cn': { name: '亚马逊', currency: '¥' },
+  'jd.com': { name: '京东', currency: '¥' },
+  'taobao.com': { name: '淘宝', currency: '¥' },
+  'tmall.com': { name: '天猫', currency: '¥' }
+};
+
+(async function detect() {
+  const host = window.location.hostname;
+  const platform = Object.keys(PLATFORMS).find(k => host.includes(k));
+  if (!platform) return;
+
+  const info = PLATFORMS[platform];
+
+  // Extract product info
+  const product = {
+    platform: info.name,
+    currency: info.currency,
+    url: window.location.href,
+    detectedAt: Date.now()
+  };
+
+  try {
+    // Get title
+    product.name = getTitle(platform);
+    // Get price
+    const priceResult = getPrice(platform);
+    product.price = priceResult.price;
+    product.rawPrice = priceResult.raw;
+    // Get image
+    product.image = getImage(platform);
+    // Generate stable ID
+    product.id = generateId(product.url);
+  } catch (e) {
+    return; // Not a product page
+  }
+
+  if (!product.name || !product.price) return;
+
+  // Notify background to save this product
+  chrome.runtime.sendMessage({ type: 'SAVE_PRODUCT', product });
+
+  // Show floating indicator
+  showIndicator(product);
+})();
+
+function getTitle(platform) {
+  const selectors = {
+    'amazon.com': '#productTitle',
+    'amazon.cn': '#productTitle',
+    'jd.com': '.sku-name, .title-name',
+    'taobao.com': '.tb-main-title',
+    'tmall.com': '.tm-main-title'
+  };
+  const sel = selectors[platform];
+  if (!sel) return document.title;
+
+  const el = document.querySelector(sel);
+  return el ? el.textContent.trim().substring(0, 200) : document.title.split('-')[0].trim();
+}
+
+function getPrice(platform) {
+  const selectors = {
+    'amazon.com': ['.a-price .a-offscreen', '#priceblock_ourprice', '.a-price-whole'],
+    'amazon.cn': ['.a-price .a-offscreen', '.price'],
+    'jd.com': ['.p-price .price', '.J-p-', '[data-price]'],
+    'taobao.com': ['.tb-rmb-num', '.tm-price'],
+    'tmall.com': ['.tm-price', '.tm-promo-price']
+  };
+
+  const sels = selectors[platform] || [];
+  for (const sel of sels) {
+    const el = document.querySelector(sel);
+    if (el) {
+      const text = el.dataset?.price || el.textContent || el.getAttribute('content') || '';
+      const num = parseFloat(text.replace(/[^\d.]/g, ''));
+      if (num > 0) return { price: num, raw: text.trim() };
+    }
+  }
+
+  return { price: null, raw: null };
+}
+
+function getImage(platform) {
+  const selectors = {
+    'amazon.com': '#landingImage',
+    'amazon.cn': '#landingImage',
+    'jd.com': '.spec-items img, #spec-img',
+    'taobao.com': '.tb-booth img',
+    'tmall.com': '.tm-booth img'
+  };
+  const sel = selectors[platform];
+  if (sel) {
+    const el = document.querySelector(sel);
+    return el?.src || '';
+  }
+  return '';
+}
+
+function generateId(url) {
+  // Simple hash from URL
+  let hash = 0;
+  for (let i = 0; i < url.length; i++) {
+    const c = url.charCodeAt(i);
+    hash = ((hash << 5) - hash) + c;
+    hash |= 0;
+  }
+  return 'ph_' + Math.abs(hash).toString(36);
+}
+
+function showIndicator(product) {
+  const indicator = document.createElement('div');
+  indicator.id = 'pricehawk-indicator';
+  indicator.innerHTML = `
+    <div class="ph-badge">
+      <span class="ph-icon">🦅</span>
+      <span>PriceHawk 已追踪</span>
+      <span class="ph-price">${product.currency}${product.price.toFixed(2)}</span>
+    </div>
+  `;
+  indicator.addEventListener('click', () => {
+    chrome.runtime.sendMessage({ type: 'SAVE_PRODUCT', product });
+    indicator.querySelector('.ph-badge').innerHTML = '<span class="ph-icon">✓</span><span>已加入监控</span>';
+    setTimeout(() => indicator.remove(), 2000);
+  });
+  document.body.appendChild(indicator);
+}
