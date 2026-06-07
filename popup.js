@@ -78,8 +78,8 @@ async function loadAlerts() {
 
   container.innerHTML = alerts.slice(0, 5).map(a => `
     <div class="alert-item">
-      <strong>${a.title}</strong>
-      <p>${a.message}</p>
+      <strong>${escapeHtml(a.title)}</strong>
+      <p>${escapeHtml(a.message)}</p>
       <div class="alert-time">${formatTime(a.time)}</div>
     </div>
   `).join('');

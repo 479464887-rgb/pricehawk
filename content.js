@@ -115,16 +115,30 @@ function generateId(url) {
 function showIndicator(product) {
   const indicator = document.createElement('div');
   indicator.id = 'pricehawk-indicator';
-  indicator.innerHTML = `
-    <div class="ph-badge">
-      <span class="ph-icon">🦅</span>
-      <span>PriceHawk 已追踪</span>
-      <span class="ph-price">${product.currency}${product.price.toFixed(2)}</span>
-    </div>
-  `;
+  
+  const badge = document.createElement('div');
+  badge.className = 'ph-badge';
+  
+  const icon = document.createElement('span');
+  icon.className = 'ph-icon';
+  icon.textContent = '🦅';
+  badge.appendChild(icon);
+  
+  const label = document.createElement('span');
+  label.textContent = 'PriceHawk 已追踪';
+  badge.appendChild(label);
+  
+  const priceSpan = document.createElement('span');
+  priceSpan.className = 'ph-price';
+  priceSpan.textContent = `${product.currency}${product.price.toFixed(2)}`;
+  badge.appendChild(priceSpan);
+  
+  indicator.appendChild(badge);
+  
   indicator.addEventListener('click', () => {
     chrome.runtime.sendMessage({ type: 'SAVE_PRODUCT', product });
-    indicator.querySelector('.ph-badge').innerHTML = '<span class="ph-icon">✓</span><span>已加入监控</span>';
+    icon.textContent = '✓';
+    label.textContent = '已加入监控';
     setTimeout(() => indicator.remove(), 2000);
   });
   document.body.appendChild(indicator);
