@@ -1,5 +1,8 @@
 {
   "manifest_version": 3,
+  "externally_connectable": {
+    "matches": ["https://extensionpay.com/*"]
+  },
   "minimum_chrome_version": "88",
   "name": "PriceHawk",
   "version": "1.0.0",
