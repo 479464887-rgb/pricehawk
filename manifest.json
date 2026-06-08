@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "minimum_chrome_version": "88",
   "name": "PriceHawk",
   "version": "1.0.0",
   "description": "电商智能比价助手 — 自动识别商品、追踪价格历史、降价即时提醒",
