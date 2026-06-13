@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>PriceHawk · Settings</title>
+<title>PriceHawk · 设置</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;color:#c9d1d9;background:#0d1117;max-width:500px;margin:40px auto;padding:0 20px}
@@ -24,33 +24,33 @@ h1{font-size:22px;color:#f0c040;margin-bottom:24px}
 </style>
 </head>
 <body>
-<h1>🦅 PriceHawk Settings</h1>
+<h1>🦅 PriceHawk 设置</h1>
 
 <div class="card">
-  <h2>Alert Settings</h2>
+  <h2>提醒设置</h2>
   <div class="field">
-    <label>Price Drop Alert Threshold (%)</label>
-    <div class="hint">Notify when price drops exceed this percentage</div>
+    <label>降价提醒阈值 (%)</label>
+    <div class="hint">价格降幅超过此比例时通知</div>
     <input type="number" id="alert-threshold" min="1" max="50" step="1" value="5">
   </div>
   <div class="field">
-    <label>Price Check Frequency (hours)</label>
+    <label>价格检查频率 (小时)</label>
     <select id="refresh-hours">
-      <option value="1">1 hours</option>
-      <option value="3">3 hours</option>
-      <option value="6" selected>6 hours</option>
-      <option value="12">12 hours</option>
-      <option value="24">24 hours</option>
+      <option value="1">1 小时</option>
+      <option value="3">3 小时</option>
+      <option value="6" selected>6 小时</option>
+      <option value="12">12 小时</option>
+      <option value="24">24 小时</option>
     </select>
   </div>
   <div class="field checkbox">
     <input type="checkbox" id="notify-on-drop" checked>
-    <label>Enable Price Drop Notifications</label>
+    <label>启用降价通知</label>
   </div>
 </div>
 
 <div class="card">
-  <button class="btn" id="save">SaveSettings</button>
+  <button class="btn" id="save">保存设置</button>
   <span id="status"></span>
 </div>
 

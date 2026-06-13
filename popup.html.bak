@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -34,17 +34,17 @@ h1{font-size:16px;color:#f0c040;margin-bottom:4px}
 </head>
 <body>
 <h1>🦅 PriceHawk</h1>
-<p class="subtitle">Auto-track prices while browsing products</p>
+<p class="subtitle">浏览商品时自动追踪价格</p>
 
-<div class="section-title" style="margin-bottom:8px">📊 Watchlist</div>
+<div class="section-title" style="margin-bottom:8px">📊 监控列表</div>
 <div id="product-list"></div>
 
-<div class="section-title" style="margin-top:16px;margin-bottom:8px">🔔 Price Drop Alerts</div>
+<div class="section-title" style="margin-top:16px;margin-bottom:8px">🔔 降价提醒</div>
 <div id="alert-list"></div>
 
 <div class="footer">
-  <a href="#" id="clear-alerts">Clear Alerts</a>
-  <a href="#" id="btn-settings">⚙️ Settings</a>
+  <a href="#" id="clear-alerts">清除提醒</a>
+  <a href="#" id="btn-settings">⚙️ 设置</a>
 </div>
 
 <script src="popup.js"></script>

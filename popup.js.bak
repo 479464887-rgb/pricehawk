@@ -48,7 +48,7 @@ async function loadProducts() {
   const container = document.getElementById('product-list');
 
   if (!products.length) {
-    container.innerHTML = `<div class="empty"><div class="emoji">🛒</div><p>No watched products</p><p style="font-size:11px;color:#484f58">Browse e-commerce sites to auto-add</p></div>`;
+    container.innerHTML = `<div class="empty"><div class="emoji">🛒</div><p>暂无监控商品</p><p style="font-size:11px;color:#484f58">浏览电商网站自动添加</p></div>`;
     return;
   }
 
@@ -99,7 +99,7 @@ async function loadAlerts() {
   const container = document.getElementById('alert-list');
 
   if (!alerts.length) {
-    container.innerHTML = '<div style="font-size:12px;color:#484f58;padding:8px 0">No price drop alerts</div>';
+    container.innerHTML = '<div style="font-size:12px;color:#484f58;padding:8px 0">暂无降价提醒</div>';
     return;
   }
 
@@ -116,8 +116,8 @@ function formatTime(ts) {
   const d = new Date(ts);
   const now = new Date();
   const diff = now - d;
-  if (diff < 3600000) return `${Math.floor(diff / 60000)} minutes ago`;
-  if (diff < 86400000) return `${Math.floor(diff / 3600000)} hours ago`;
+  if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`;
+  if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
   return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 

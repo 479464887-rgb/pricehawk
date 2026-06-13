@@ -3,10 +3,10 @@
 
 const PLATFORMS = {
   'amazon.com': { name: 'Amazon', currency: '$' },
-  'amazon.cn': { name: 'Amazon CN', currency: '¥' },
-  'jd.com': { name: 'JD.com', currency: '¥' },
-  'taobao.com': { name: 'Taobao', currency: '¥' },
-  'tmall.com': { name: 'Tmall', currency: '¥' }
+  'amazon.cn': { name: '亚马逊', currency: '¥' },
+  'jd.com': { name: '京东', currency: '¥' },
+  'taobao.com': { name: '淘宝', currency: '¥' },
+  'tmall.com': { name: '天猫', currency: '¥' }
 };
 
 (async function detect() {

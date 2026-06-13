@@ -1,12 +1,12 @@
 // PriceHawk - Content Script
-// Auto-detect product pages and extract price info
+// 自动检测商品页面并提取价格信息
 
 const PLATFORMS = {
   'amazon.com': { name: 'Amazon', currency: '$' },
-  'amazon.cn': { name: 'Amazon CN', currency: '¥' },
-  'jd.com': { name: 'JD.com', currency: '¥' },
-  'taobao.com': { name: 'Taobao', currency: '¥' },
-  'tmall.com': { name: 'Tmall', currency: '¥' }
+  'amazon.cn': { name: '亚马逊', currency: '¥' },
+  'jd.com': { name: '京东', currency: '¥' },
+  'taobao.com': { name: '淘宝', currency: '¥' },
+  'tmall.com': { name: '天猫', currency: '¥' }
 };
 
 (async function detect() {
@@ -125,7 +125,7 @@ function showIndicator(product) {
   badge.appendChild(icon);
   
   const label = document.createElement('span');
-  label.textContent = 'PriceHawk Tracking';
+  label.textContent = 'PriceHawk 已追踪';
   badge.appendChild(label);
   
   const priceSpan = document.createElement('span');
@@ -138,7 +138,7 @@ function showIndicator(product) {
   indicator.addEventListener('click', () => {
     chrome.runtime.sendMessage({ type: 'SAVE_PRODUCT', product });
     icon.textContent = '✓';
-    label.textContent = 'Added to Watchlist';
+    label.textContent = '已加入监控';
     setTimeout(() => indicator.remove(), 2000);
   });
   document.body.appendChild(indicator);
